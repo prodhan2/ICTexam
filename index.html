@@ -189,6 +189,8 @@
                 <div class="mt-3" id="scoreFraction"></div>
                 <div class="mt-3" id="timeTaken"></div>
                 <div class="mt-3" id="accuracyRate"></div>
+                <div id="poweredBy" style="margin-top: 10px; font-size: 0.9em; color: #666;"></div>
+
               </div>
             </div>
           </div>
@@ -532,6 +534,9 @@
       scoreFractionEl.innerHTML = `<i class="bi bi-check-circle"></i> <strong>${score} / ${total}</strong> প্রশ্ন সঠিক উত্তর`;
       timeTakenEl.innerHTML = `<i class="bi bi-clock"></i> সময় নিয়েছেন: <strong>${minutes} মিনিট ${seconds} সেকেন্ড</strong>`;
       accuracyRateEl.innerHTML = `<i class="bi bi-speedometer2"></i> সঠিকতার হার: <strong>${percentage}%</strong>`;
+      const poweredByEl = document.getElementById("poweredBy");
+      poweredByEl.textContent = "Powered by Sujan Prodhan (CSE, University of Rajshahi)";
+
       
       // Render detailed results
       renderDetailedResults();
