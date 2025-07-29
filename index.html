@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="max-age=86400, public" />
   <title>এমসিকিউ টেস্ট</title>
+  <link href="https://fonts.rabeya.com/css?family=SolaimanLipi" rel="stylesheet" type="text/css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
     .explanation {
       display: none;
@@ -64,8 +67,43 @@
     body {
       font-family: 'SolaimanLipi', 'Siyam Rupali', Arial, sans-serif !important;
     }
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .result-header {
+      background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .score-display {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #28a745;
+    }
+    .result-card {
+      transition: all 0.3s ease;
+      border: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .result-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    .exam-info {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
   </style>
-  <link href="https://fonts.rabeya.com/css?family=SolaimanLipi" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
@@ -78,16 +116,16 @@
     <!-- Introduction Section -->
     <div id="introSection" class="text-center mb-5">
       <h2 class="mb-3">এমসিকিউ পরীক্ষায় স্বাগতম</h2>
-      <p class="lead">এই পরীক্ষাটি বহুনির্বাচনী প্রশ্ন নিয়ে গঠিত। সম্পূর্ণ করতে আপনার ২ মিনিট সময় থাকবে।</p>
+      <p class="lead">এই পরীক্ষাটি বহুনির্বাচনী প্রশ্ন নিয়ে গঠিত।</p>
       <div class="card mx-auto" style="max-width: 600px;">
         <div class="card-body">
           <h5 class="card-title">নির্দেশাবলী</h5>
           <ul class="text-start">
             <li>ড্রপডাউন থেকে আপনার নাম নির্বাচন করুন</li>
-            <li>পরীক্ষা সম্পূর্ণ করার জন্য আপনার ২ মিনিট সময় থাকবে</li>
+            <li>প্রতিটি প্রশ্নের জন্য ১ মিনিট সময় বরাদ্দ থাকবে</li>
             <li>প্রতিটি প্রশ্নের একটি মাত্র সঠিক উত্তর আছে</li>
-            <li>আপনি যখন একটি উত্তর নির্বাচন করবেন, তা লক হয়ে যাবে এবং তাৎক্ষণিকভাবে মূল্যায়ন করা হবে</li>
-            <li>যে কোনো সময় আপনি আপনার পরীক্ষা জমা দিতে পারেন</li>
+            <li>উত্তর নির্বাচন করলে তাৎক্ষণিকভাবে মূল্যায়ন দেখা যাবে</li>
+            <li>যে কোনো সময় পরীক্ষা জমা দিতে পারবেন</li>
           </ul>
         </div>
       </div>
@@ -115,7 +153,7 @@
         <div>
           <span class="badge bg-primary">পরীক্ষার্থী: <span id="currentUserDisplay"></span></span>
         </div>
-        <div id="timer" class="text-danger fw-bold fs-5">সময়: ০২:০০</div>
+        <div id="timer" class="text-danger fw-bold fs-5">সময়: ০০:০০</div>
       </div>
       
       <div class="progress">
@@ -136,48 +174,47 @@
 
     <!-- Result Section -->
     <div id="resultSection" class="d-none">
-      <div class="card">
-        <div class="card-header bg-primary text-white">
-          <h3 class="card-title mb-0">পরীক্ষার ফলাফল</h3>
+      <div class="result-header">
+        <img id="userProfileImg" class="profile-img mb-3" src="" alt="User Profile">
+        <h2 id="scoreDisplay" class="mb-2"></h2>
+        <div class="score-display" id="scorePercentage"></div>
+      </div>
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 result-card">
+              <div class="card-body text-center">
+                <h5 class="card-title">পরীক্ষার সারাংশ</h5>
+                <div class="mt-3" id="scoreFraction"></div>
+                <div class="mt-3" id="timeTaken"></div>
+                <div class="mt-3" id="accuracyRate"></div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="card h-100 result-card">
+              <div class="card-body">
+                <h5 class="card-title text-center">আপনার পারফরম্যান্স</h5>
+                <canvas id="resultChart"></canvas>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="card-body">
-          <h4 id="scoreDisplay" class="text-center mb-4"></h4>
-          
-          <div class="row">
-            <div class="col-md-6 mb-4">
-              <div class="card h-100">
-                <div class="card-body text-center">
-                  <h5 class="card-title">সারাংশ</h5>
-                  <div class="display-4" id="scorePercentage"></div>
-                  <div class="mt-2" id="scoreFraction"></div>
-                  <div class="mt-3" id="timeTaken"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="col-md-6">
-              <div class="card h-100">
-                <div class="card-body">
-                  <h5 class="card-title text-center">পারফরম্যান্স</h5>
-                  <canvas id="resultChart"></canvas>
-                </div>
-              </div>
-            </div>
+        
+        <div class="card mt-4 result-card">
+          <div class="card-header">
+            <h5 class="mb-0">বিস্তারিত ফলাফল</h5>
           </div>
-          
-          <div class="card mt-4">
-            <div class="card-header">
-              <h5 class="mb-0">বিস্তারিত ফলাফল</h5>
-            </div>
-            <div class="card-body">
-              <div id="resultDetails"></div>
-            </div>
+          <div class="card-body">
+            <div id="resultDetails"></div>
           </div>
-          
-          <div class="text-center mt-4">
-            <button id="restartBtn" class="btn btn-primary">আবার পরীক্ষা দিন</button>
-            <button id="newUserBtn" class="btn btn-outline-primary ms-2">নতুন ব্যবহারকারী</button>
-          </div>
+        </div>
+        
+        <div class="text-center mt-4">
+          <button id="restartBtn" class="btn btn-primary btn-lg">আবার পরীক্ষা দিন</button>
+          <button id="newUserBtn" class="btn btn-outline-primary btn-lg ms-3">নতুন ব্যবহারকারী</button>
         </div>
       </div>
     </div>
@@ -231,7 +268,9 @@
     const scorePercentageEl = document.getElementById('scorePercentage');
     const scoreFractionEl = document.getElementById('scoreFraction');
     const timeTakenEl = document.getElementById('timeTaken');
+    const accuracyRateEl = document.getElementById('accuracyRate');
     const resultChartEl = document.getElementById('resultChart');
+    const userProfileImg = document.getElementById('userProfileImg');
 
     // Quiz Variables
     let quizData = [];
@@ -239,10 +278,11 @@
     let score = 0;
     let total = 0;
     let timer;
-    let duration = 120;
+    let duration = 0;
     let startTime;
     let answeredQuestions = 0;
     let userAnswers = [];
+    const TIME_PER_QUESTION = 60; // 60 seconds (1 minute) per question
 
     // Initialize
     userSelect.addEventListener("change", () => {
@@ -279,7 +319,7 @@
       score = 0;
       answeredQuestions = 0;
       userAnswers = [];
-      duration = 120;
+      duration = 0;
       quizEl.innerHTML = "";
     }
 
@@ -289,7 +329,6 @@
         duration--;
         updateTime();
         
-        // Add warning when time is running low
         if (duration === 30) {
           timerEl.classList.add("time-warning");
         }
@@ -306,8 +345,8 @@
       const sec = String(duration % 60).padStart(2, '০');
       timerEl.textContent = `সময়: ${min}:${sec}`;
       
-      // Update progress bar
-      const progress = ((120 - duration) / 120) * 100;
+      const totalTime = total * TIME_PER_QUESTION;
+      const progress = ((totalTime - duration) / totalTime) * 100;
       progressBar.style.width = `${progress}%`;
       
       if (duration < 30) {
@@ -328,9 +367,12 @@
         `;
         quizEl.innerHTML = loadingHtml;
         
-        const res = await fetch("https://opensheet.elk.sh/1xvjS3P9mzB4FyGvub14r99zWIA3zh7v84WFo_ZLoRV8/1");
+        const res = await fetch("https://opensheet.elk.sh/1xvjS3P9mzB4FyGvub14r99zWIA3zh7v84WFo_ZLoRV8/1", {
+          cache: "force-cache"
+        });
         quizData = (await res.json()).filter(q => q["প্রশ্ন"]);
         total = quizData.length;
+        duration = total * TIME_PER_QUESTION;
         renderQuiz();
       } catch (e) {
         quizEl.innerHTML = `
@@ -345,6 +387,18 @@
 
     function renderQuiz() {
       quizEl.innerHTML = "";
+      
+      // Display exam info
+      const totalMinutes = Math.floor(duration / 60);
+      quizEl.innerHTML = `
+        <div class="exam-info">
+          <h5><i class="bi bi-info-circle"></i> পরীক্ষার তথ্য</h5>
+          <p>মোট প্রশ্ন: ${total} টি</p>
+          <p>মোট সময়: ${totalMinutes} মিনিট (প্রতি প্রশ্নের জন্য ১ মিনিট)</p>
+          <p>অনুত্তরিত প্রশ্ন: ${total} টি</p>
+        </div>
+      `;
+      
       quizData.forEach((q, i) => {
         const div = document.createElement("div");
         div.className = "question-box";
@@ -423,6 +477,13 @@
       progressBar.style.width = `${progress}%`;
       progressBar.setAttribute('aria-valuenow', progress);
       progressBar.textContent = `${answeredQuestions}/${total} উত্তর দেওয়া হয়েছে`;
+      
+      // Update unanswered count in exam info
+      const unanswered = total - answeredQuestions;
+      const examInfo = document.querySelector('.exam-info');
+      if (examInfo) {
+        examInfo.querySelector('p:last-child').textContent = `অনুত্তরিত প্রশ্ন: ${unanswered} টি`;
+      }
     }
     
     function scrollToNextUnanswered() {
@@ -452,16 +513,29 @@
       quizContainer.classList.add("d-none");
       resultSection.classList.remove("d-none");
       
+      // Set profile image based on user
+      if (currentUser === "প্রিয়ন্তী") {
+        userProfileImg.src = "https://i.postimg.cc/zX1Dt2nx/image.png";
+      } else if (currentUser === "অর্পিতা") {
+        userProfileImg.src = "https://i.postimg.cc/L4DQwnPG/image.png";
+      }
+      
       const endTime = new Date();
       const timeTaken = Math.round((endTime - startTime) / 1000);
       const minutes = Math.floor(timeTaken / 60);
       const seconds = timeTaken % 60;
+      const percentage = Math.round((score / total) * 100);
       
-      // Display results
-      scoreDisplay.textContent = `${currentUser}-এর পরীক্ষার ফলাফল`;
-      scorePercentageEl.textContent = `${Math.round((score / total) * 100)}%`;
-      scoreFractionEl.textContent = `${score} টি সঠিক ${total} টির মধ্যে`;
-      timeTakenEl.textContent = `গৃহীত সময়: ${minutes} মিনিট ${seconds} সেকেন্ড`;
+      // Display results with modern layout
+     const poweredByEl = document.getElementById('poweredBy');
+
+scoreDisplay.textContent = `${currentUser}-এর ICT পরীক্ষার ফলাফল`;
+scorePercentageEl.textContent = `${percentage}%`;
+scoreFractionEl.innerHTML = `<i class="bi bi-check-circle"></i> <strong>${score} / ${total}</strong> প্রশ্ন সঠিক উত্তর`;
+timeTakenEl.innerHTML = `<i class="bi bi-clock"></i> সময় নিয়েছেন: <strong>${minutes} মিনিট ${seconds} সেকেন্ড</strong>`;
+accuracyRateEl.innerHTML = `<i class="bi bi-speedometer2"></i> সঠিকতার হার: <strong>${percentage}%</strong>`;
+poweredByEl.textContent = "Powered by Sujan Prodhan (CSE, University of Rajshahi)";
+
       
       // Render detailed results
       renderDetailedResults();
@@ -548,7 +622,7 @@
       score = 0;
       answeredQuestions = 0;
       userAnswers = [];
-      duration = 120;
+      duration = total * TIME_PER_QUESTION;
       startTime = new Date();
       renderQuiz();
       startTimer();
@@ -561,8 +635,19 @@
       score = 0;
       answeredQuestions = 0;
       userAnswers = [];
-      duration = 120;
+      duration = 0;
       quizEl.innerHTML = '';
+    });
+
+    // Cache handling
+    window.addEventListener('load', () => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').then(registration => {
+          console.log('ServiceWorker registration successful');
+        }).catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      }
     });
   </script>
 </body>
