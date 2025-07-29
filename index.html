@@ -527,15 +527,11 @@
       const percentage = Math.round((score / total) * 100);
       
       // Display results with modern layout
-     const poweredByEl = document.getElementById('poweredBy');
-
-scoreDisplay.textContent = `${currentUser}-এর ICT পরীক্ষার ফলাফল`;
-scorePercentageEl.textContent = `${percentage}%`;
-scoreFractionEl.innerHTML = `<i class="bi bi-check-circle"></i> <strong>${score} / ${total}</strong> প্রশ্ন সঠিক উত্তর`;
-timeTakenEl.innerHTML = `<i class="bi bi-clock"></i> সময় নিয়েছেন: <strong>${minutes} মিনিট ${seconds} সেকেন্ড</strong>`;
-accuracyRateEl.innerHTML = `<i class="bi bi-speedometer2"></i> সঠিকতার হার: <strong>${percentage}%</strong>`;
-poweredByEl.textContent = "Powered by Sujan Prodhan (CSE, University of Rajshahi)";
-
+      scoreDisplay.textContent = `${currentUser}-এর ICT পরীক্ষার ফলাফল`;
+      scorePercentageEl.textContent = `${percentage}%`;
+      scoreFractionEl.innerHTML = `<i class="bi bi-check-circle"></i> <strong>${score} / ${total}</strong> প্রশ্ন সঠিক উত্তর`;
+      timeTakenEl.innerHTML = `<i class="bi bi-clock"></i> সময় নিয়েছেন: <strong>${minutes} মিনিট ${seconds} সেকেন্ড</strong>`;
+      accuracyRateEl.innerHTML = `<i class="bi bi-speedometer2"></i> সঠিকতার হার: <strong>${percentage}%</strong>`;
       
       // Render detailed results
       renderDetailedResults();
