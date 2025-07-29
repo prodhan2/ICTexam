@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>🎓 ICT Exam Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+      position: relative;
+    }
+
+    /* 🌟 Animated Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #00c9ff, #92fe9d);
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .animated-bg span {
+      position: absolute;
+      display: block;
+      width: 25px;
+      height: 25px;
+      background: rgba(255, 255, 255, 0.3);
+      animation: float 20s linear infinite;
+      bottom: -150px;
+      border-radius: 50%;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .animated-bg span:nth-child(odd) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .animated-bg span:nth-child(even) {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* 💳 Login Card */
+    .full-page {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-card h2 {
+      font-weight: bold;
+      color: #00bfa5;
+    }
+
+    .form-control {
+      border-radius: 10px;
+    }
+
+    .btn-login {
+      background: #00bfa5;
+      color: white;
+      font-weight: bold;
+      border-radius: 10px;
+    }
+
+    .btn-login:hover {
+      background: #008e76;
+    }
+
+    .funny-text {
+      font-size: 14px;
+      margin-top: 15px;
+      color: #555;
+    }
+
+    .emoji {
+      font-size: 40px;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🌈 Animated Background Layer -->
+  <div class="animated-bg">
+    <!-- Bubbles -->
+    <span style="left: 10%; animation-delay: 0s;"></span>
+    <span style="left: 20%; animation-delay: 2s;"></span>
+    <span style="left: 30%; animation-delay: 4s;"></span>
+    <span style="left: 40%; animation-delay: 6s;"></span>
+    <span style="left: 50%; animation-delay: 1s;"></span>
+    <span style="left: 60%; animation-delay: 3s;"></span>
+    <span style="left: 70%; animation-delay: 5s;"></span>
+    <span style="left: 80%; animation-delay: 2s;"></span>
+    <span style="left: 90%; animation-delay: 4s;"></span>
+  </div>
+
+  <!-- 📥 Login Form -->
+  <div class="full-page">
+    <div class="login-card">
+      <div class="emoji mb-2">🧠🔐</div>
+      <h2>ICT Exam Care</h2>
+      <p class="text-muted">Powered by <strong>Sujan Prodhan</strong><br>🎓 University of Rajshahi</p>
+
+      <form onsubmit="return login(event)">
+        <div class="mb-3 text-start">
+          <label for="password" class="form-label">🔒 পাসওয়ার্ড</label>
+          <input type="password" class="form-control" id="password" placeholder="শুধু পাসওয়ার্ড দাও..." required>
+        </div>
+        <button type="submit" class="btn btn-login w-100 mt-3">🚀 ঢুকো ভিতরে</button>
+      </form>
+
+      <p class="funny-text">🗣️ তোমার Teacher কে বলো Password নিতে! 😄</p>
+
+      <footer>
+        🧪 পরীক্ষায় মজা রাখো, মনোযোগ দাও 📚 <br>
+        &copy; 2025 ICT Exam Care | Coded with ☕ by Sujan Prodhan
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    function login(event) {
+      event.preventDefault();
+      const pass = document.getElementById("password").value.trim();
+
+      if (pass === "ICT6mcq") {
+        window.location.href = "/exam.html";
+      } else {
+        alert("❌ ভুল পাসওয়ার্ড! Teacher কে বলো Password দিতে ! 😜");
+      }
+    }
+  </script>
+</body>
+</html>
