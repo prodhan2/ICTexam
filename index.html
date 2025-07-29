@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MCQ Test</title>
+  <title>এমসিকিউ টেস্ট</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     .explanation {
@@ -62,29 +61,33 @@
       max-height: 500px;
       overflow-y: auto;
     }
+    body {
+      font-family: 'SolaimanLipi', 'Siyam Rupali', Arial, sans-serif !important;
+    }
   </style>
+  <link href="https://fonts.rabeya.com/css?family=SolaimanLipi" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container">
-      <a class="navbar-brand" href="#">MCQ Examination System</a>
+      <a class="navbar-brand" href="#">এমসিকিউ পরীক্ষা সিস্টেম</a>
     </div>
   </nav>
 
   <div class="container py-4">
     <!-- Introduction Section -->
     <div id="introSection" class="text-center mb-5">
-      <h2 class="mb-3">Welcome to the MCQ Test</h2>
-      <p class="lead">This test consists of multiple-choice questions. You will have 2 minutes to complete it.</p>
+      <h2 class="mb-3">এমসিকিউ পরীক্ষায় স্বাগতম</h2>
+      <p class="lead">এই পরীক্ষাটি বহুনির্বাচনী প্রশ্ন নিয়ে গঠিত। সম্পূর্ণ করতে আপনার ২ মিনিট সময় থাকবে।</p>
       <div class="card mx-auto" style="max-width: 600px;">
         <div class="card-body">
-          <h5 class="card-title">Instructions</h5>
+          <h5 class="card-title">নির্দেশাবলী</h5>
           <ul class="text-start">
-            <li>Select your name from the dropdown</li>
-            <li>You will have 2 minutes to complete the test</li>
-            <li>Each question has only one correct answer</li>
-            <li>Once you select an answer, it will be locked and evaluated immediately</li>
-            <li>You can submit your test at any time</li>
+            <li>ড্রপডাউন থেকে আপনার নাম নির্বাচন করুন</li>
+            <li>পরীক্ষা সম্পূর্ণ করার জন্য আপনার ২ মিনিট সময় থাকবে</li>
+            <li>প্রতিটি প্রশ্নের একটি মাত্র সঠিক উত্তর আছে</li>
+            <li>আপনি যখন একটি উত্তর নির্বাচন করবেন, তা লক হয়ে যাবে এবং তাৎক্ষণিকভাবে মূল্যায়ন করা হবে</li>
+            <li>যে কোনো সময় আপনি আপনার পরীক্ষা জমা দিতে পারেন</li>
           </ul>
         </div>
       </div>
@@ -94,14 +97,14 @@
     <div id="userSelection" class="mb-4 text-center">
       <div class="card mx-auto" style="max-width: 400px;">
         <div class="card-body">
-          <h5 class="card-title">Begin Your Test</h5>
-          <label for="userSelect" class="form-label">Select Your Name:</label>
+          <h5 class="card-title">আপনার পরীক্ষা শুরু করুন</h5>
+          <label for="userSelect" class="form-label">নাম নির্বাচন করুন:</label>
           <select id="userSelect" class="form-select mb-3">
-            <option selected disabled value="">Choose your name...</option>
-            <option value="Arpita">Arpita</option>
-            <option value="Prionti">Prionti</option>
+            <option selected disabled value="">নাম নির্বাচন করুন...</option>
+            <option value="অর্পিতা">অর্পিতা</option>
+            <option value="প্রিয়ন্তী">প্রিয়ন্তী</option>
           </select>
-          <button class="btn btn-primary w-100" id="startBtn" disabled>Start Test</button>
+          <button class="btn btn-primary w-100" id="startBtn" disabled>পরীক্ষা শুরু করুন</button>
         </div>
       </div>
     </div>
@@ -110,9 +113,9 @@
     <div id="quizContainer" class="d-none">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-          <span class="badge bg-primary">Candidate: <span id="currentUserDisplay"></span></span>
+          <span class="badge bg-primary">পরীক্ষার্থী: <span id="currentUserDisplay"></span></span>
         </div>
-        <div id="timer" class="text-danger fw-bold fs-5">Time: 02:00</div>
+        <div id="timer" class="text-danger fw-bold fs-5">সময়: ০২:০০</div>
       </div>
       
       <div class="progress">
@@ -120,14 +123,14 @@
       </div>
       
       <div class="d-flex justify-content-between mb-3">
-        <button id="backToUserBtn" class="btn btn-outline-secondary">Change User</button>
-        <button id="submitBtn" class="btn btn-success">Submit Test</button>
+        <button id="backToUserBtn" class="btn btn-outline-secondary">ব্যবহারকারী পরিবর্তন</button>
+        <button id="submitBtn" class="btn btn-success">পরীক্ষা জমা দিন</button>
       </div>
       
       <div id="quiz"></div>
       
       <div class="text-center mt-4">
-        <button id="bottomSubmitBtn" class="btn btn-success btn-lg">Submit Test</button>
+        <button id="bottomSubmitBtn" class="btn btn-success btn-lg">পরীক্ষা জমা দিন</button>
       </div>
     </div>
 
@@ -135,7 +138,7 @@
     <div id="resultSection" class="d-none">
       <div class="card">
         <div class="card-header bg-primary text-white">
-          <h3 class="card-title mb-0">Test Results</h3>
+          <h3 class="card-title mb-0">পরীক্ষার ফলাফল</h3>
         </div>
         <div class="card-body">
           <h4 id="scoreDisplay" class="text-center mb-4"></h4>
@@ -144,7 +147,7 @@
             <div class="col-md-6 mb-4">
               <div class="card h-100">
                 <div class="card-body text-center">
-                  <h5 class="card-title">Summary</h5>
+                  <h5 class="card-title">সারাংশ</h5>
                   <div class="display-4" id="scorePercentage"></div>
                   <div class="mt-2" id="scoreFraction"></div>
                   <div class="mt-3" id="timeTaken"></div>
@@ -155,7 +158,7 @@
             <div class="col-md-6">
               <div class="card h-100">
                 <div class="card-body">
-                  <h5 class="card-title text-center">Performance</h5>
+                  <h5 class="card-title text-center">পারফরম্যান্স</h5>
                   <canvas id="resultChart"></canvas>
                 </div>
               </div>
@@ -164,7 +167,7 @@
           
           <div class="card mt-4">
             <div class="card-header">
-              <h5 class="mb-0">Detailed Results</h5>
+              <h5 class="mb-0">বিস্তারিত ফলাফল</h5>
             </div>
             <div class="card-body">
               <div id="resultDetails"></div>
@@ -172,8 +175,8 @@
           </div>
           
           <div class="text-center mt-4">
-            <button id="restartBtn" class="btn btn-primary">Take Test Again</button>
-            <button id="newUserBtn" class="btn btn-outline-primary ms-2">New User</button>
+            <button id="restartBtn" class="btn btn-primary">আবার পরীক্ষা দিন</button>
+            <button id="newUserBtn" class="btn btn-outline-primary ms-2">নতুন ব্যবহারকারী</button>
           </div>
         </div>
       </div>
@@ -185,16 +188,16 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Confirm Submission</h5>
+          <h5 class="modal-title">জমা দেওয়ার নিশ্চিতকরণ</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Are you sure you want to submit your test?</p>
-          <p>You have answered <span id="answeredCount">0</span> out of <span id="totalCount">0</span> questions.</p>
+          <p>আপনি কি নিশ্চিতভাবে আপনার পরীক্ষা জমা দিতে চান?</p>
+          <p>আপনি <span id="answeredCount">০</span> টি প্রশ্নের উত্তর দিয়েছেন <span id="totalCount">০</span> টির মধ্যে।</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" id="confirmSubmitBtn">Submit Test</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">বাতিল</button>
+          <button type="button" class="btn btn-primary" id="confirmSubmitBtn">পরীক্ষা জমা দিন</button>
         </div>
       </div>
     </div>
@@ -261,7 +264,7 @@
     backToUserBtn.addEventListener("click", () => {
       clearInterval(timer);
       if (answeredQuestions > 0) {
-        if (confirm("You have already answered some questions. Are you sure you want to change user and lose your progress?")) {
+        if (confirm("আপনি ইতিমধ্যে কিছু প্রশ্নের উত্তর দিয়েছেন। আপনি কি নিশ্চিতভাবে ব্যবহারকারী পরিবর্তন করতে চান এবং আপনার অগ্রগতি হারাতে চান?")) {
           resetQuiz();
         }
       } else {
@@ -299,9 +302,9 @@
     }
 
     function updateTime() {
-      const min = String(Math.floor(duration / 60)).padStart(2, '0');
-      const sec = String(duration % 60).padStart(2, '0');
-      timerEl.textContent = `Time: ${min}:${sec}`;
+      const min = String(Math.floor(duration / 60)).padStart(2, '০');
+      const sec = String(duration % 60).padStart(2, '০');
+      timerEl.textContent = `সময়: ${min}:${sec}`;
       
       // Update progress bar
       const progress = ((120 - duration) / 120) * 100;
@@ -318,23 +321,23 @@
         const loadingHtml = `
           <div class="text-center py-5">
             <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
+              <span class="visually-hidden">লোড হচ্ছে...</span>
             </div>
-            <p class="mt-3">Loading test questions...</p>
+            <p class="mt-3">পরীক্ষার প্রশ্ন লোড হচ্ছে...</p>
           </div>
         `;
         quizEl.innerHTML = loadingHtml;
         
         const res = await fetch("https://opensheet.elk.sh/1xvjS3P9mzB4FyGvub14r99zWIA3zh7v84WFo_ZLoRV8/1");
-        quizData = (await res.json()).filter(q => q.Question);
+        quizData = (await res.json()).filter(q => q["প্রশ্ন"]);
         total = quizData.length;
         renderQuiz();
       } catch (e) {
         quizEl.innerHTML = `
           <div class="alert alert-danger">
-            <h5>Failed to load quiz</h5>
-            <p>Please check your internet connection and try again.</p>
-            <button class="btn btn-warning" onclick="window.location.reload()">Reload Page</button>
+            <h5>পরীক্ষা লোড করতে ব্যর্থ হয়েছে</h5>
+            <p>আপনার ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।</p>
+            <button class="btn btn-warning" onclick="window.location.reload()">পৃষ্ঠা রিলোড করুন</button>
           </div>
         `;
       }
@@ -357,9 +360,9 @@
         `).join("");
 
         div.innerHTML = `
-          <h5><span class="question-number">${q["No."]}.</span> ${q.Question}</h5>
+          <h5><span class="question-number">${q["No."]}.</span> ${q["প্রশ্ন"]}</h5>
           ${options}
-          <p class="explanation" id="exp${i}">${q.Explanation || "No explanation available."}</p>
+          <p class="explanation" id="exp${i}">${q["ব্যাখ্যা"] || "কোনো ব্যাখ্যা পাওয়া যায়নি।"}</p>
         `;
         quizEl.appendChild(div);
       });
@@ -370,17 +373,17 @@
         inputs.forEach(input => {
           input.addEventListener("change", () => {
             const selected = input.value;
-            const correct = q.Answer;
+            const correct = q["উত্তর"];
             const explanation = document.getElementById(`exp${i}`);
             explanation.style.display = "block";
 
             // Store user answer
             userAnswers[i] = {
-              question: q.Question,
+              question: q["প্রশ্ন"],
               selected: selected,
               correct: correct,
               isCorrect: selected === correct,
-              explanation: q.Explanation || "No explanation available."
+              explanation: q["ব্যাখ্যা"] || "কোনো ব্যাখ্যা পাওয়া যায়নি।"
             };
 
             // Disable all inputs for this question
@@ -419,7 +422,7 @@
       const progress = Math.round((answeredQuestions / total) * 100);
       progressBar.style.width = `${progress}%`;
       progressBar.setAttribute('aria-valuenow', progress);
-      progressBar.textContent = `${answeredQuestions}/${total} answered`;
+      progressBar.textContent = `${answeredQuestions}/${total} উত্তর দেওয়া হয়েছে`;
     }
     
     function scrollToNextUnanswered() {
@@ -455,10 +458,10 @@
       const seconds = timeTaken % 60;
       
       // Display results
-      scoreDisplay.textContent = `${currentUser}'s Test Results`;
+      scoreDisplay.textContent = `${currentUser}-এর পরীক্ষার ফলাফল`;
       scorePercentageEl.textContent = `${Math.round((score / total) * 100)}%`;
-      scoreFractionEl.textContent = `${score} out of ${total} correct`;
-      timeTakenEl.textContent = `Time taken: ${minutes}m ${seconds}s`;
+      scoreFractionEl.textContent = `${score} টি সঠিক ${total} টির মধ্যে`;
+      timeTakenEl.textContent = `গৃহীত সময়: ${minutes} মিনিট ${seconds} সেকেন্ড`;
       
       // Render detailed results
       renderDetailedResults();
@@ -475,21 +478,21 @@
       
       quizData.forEach((q, i) => {
         const userAnswer = userAnswers[i] || {
-          selected: 'Not answered',
+          selected: 'উত্তর দেওয়া হয়নি',
           isCorrect: false,
-          explanation: q.Explanation || "No explanation available."
+          explanation: q["ব্যাখ্যা"] || "কোনো ব্যাখ্যা পাওয়া যায়নি।"
         };
         
         html += `
           <div class="mb-4 p-3 ${userAnswer.isCorrect ? 'bg-success bg-opacity-10' : 'bg-danger bg-opacity-10'} rounded">
-            <h5>${q["No."]}. ${q.Question}</h5>
-            <p class="mb-1"><strong>Your answer:</strong> 
+            <h5>${q["No."]}. ${q["প্রশ্ন"]}</h5>
+            <p class="mb-1"><strong>আপনার উত্তর:</strong> 
               <span class="${userAnswer.isCorrect ? 'text-success' : 'text-danger'}">
-                ${userAnswer.selected}${userAnswer.selected === 'Not answered' ? '' : `) ${q[userAnswer.selected] || ''}`}
+                ${userAnswer.selected}${userAnswer.selected === 'উত্তর দেওয়া হয়নি' ? '' : `) ${q[userAnswer.selected] || ''}`}
               </span>
             </p>
-            <p class="mb-1"><strong>Correct answer:</strong> ${q.Answer}) ${q[q.Answer] || ''}</p>
-            <p class="mb-0"><strong>Explanation:</strong> ${userAnswer.explanation}</p>
+            <p class="mb-1"><strong>সঠিক উত্তর:</strong> ${q["উত্তর"]}) ${q[q["উত্তর"]] || ''}</p>
+            <p class="mb-0"><strong>ব্যাখ্যা:</strong> ${userAnswer.explanation}</p>
           </div>
         `;
       });
@@ -506,7 +509,7 @@
       new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['Correct', 'Incorrect', 'Unanswered'],
+          labels: ['সঠিক', 'ভুল', 'অনুত্তরিত'],
           datasets: [{
             data: [correctCount, incorrectCount, unansweredCount],
             backgroundColor: [
