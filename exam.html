@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
   <title>এমসিকিউ টেস্ট</title>
   <link href="https://fonts.rabeya.com/css?family=SolaimanLipi" rel="stylesheet" type="text/css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -181,6 +181,7 @@
         <h2 id="scoreDisplay" class="mb-2"></h2>
         <div class="score-display" id="scorePercentage"></div>
         <div id="poweredBy" style="margin-top: 10px; font-size: 0.9em; color:white;"></div>
+
       </div>
       
       <div class="container">
@@ -192,9 +193,10 @@
                 <div class="mt-3" id="scoreFraction"></div>
                 <div class="mt-3" id="timeTaken"></div>
                 <div class="mt-3" id="accuracyRate"></div>
-                <div id="poweredBy" style="margin-top: 10px; font-size: 0.9em; color: green;">
-                  Powered by Sujan Prodhan (CSE, University of Rajshahi)
-                </div>
+               <div id="poweredBy" style="margin-top: 10px; font-size: 0.9em; color: green;">
+  Powered by Sujan Prodhan (CSE, University of Rajshahi)
+</div>
+
               </div>
             </div>
           </div>
@@ -288,7 +290,7 @@
     let startTime;
     let answeredQuestions = 0;
     let userAnswers = [];
-    const TIME_PER_QUESTION = 30; // 30 seconds per question
+    const TIME_PER_QUESTION = 30; // 60 seconds (1 minute) per question
 
     // Initialize
     userSelect.addEventListener("change", () => {
@@ -361,44 +363,44 @@
       }
     }
 
-    async function loadQuiz() {
-      try {
-        const loadingHtml = `
-          <div class="text-center py-5">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">লোড হচ্ছে...</span>
-            </div>
-            <p class="mt-3">পরীক্ষার প্রশ্ন লোড হচ্ছে...</p>
-          </div>
-        `;
-        quizEl.innerHTML = loadingHtml;
-        
-        // Cache-busting technique with timestamp
-        const timestamp = new Date().getTime();
-        const res = await fetch(`https://opensheet.elk.sh/1xvjS3P9mzB4FyGvub14r99zWIA3zh7v84WFo_ZLoRV8/1?timestamp=${timestamp}`, {
-          cache: "no-store",
-          headers: {
-            'Cache-Control': 'no-cache, no-store, must-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0'
-          }
-        });
-        
-        quizData = (await res.json()).filter(q => q["প্রশ্ন"]);
-        total = quizData.length;
-        duration = total * TIME_PER_QUESTION;
-        renderQuiz();
-      } catch (e) {
-        quizEl.innerHTML = `
-          <div class="alert alert-danger">
-            <h5>পরীক্ষা লোড করতে ব্যর্থ হয়েছে</h5>
-            <p>আপনার ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।</p>
-            <button class="btn btn-warning" onclick="window.location.reload()">পৃষ্ঠা রিলোড করুন</button>
-          </div>
-        `;
-        console.error("Error loading quiz:", e);
+   async function loadQuiz() {
+  try {
+    const loadingHtml = `
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">লোড হচ্ছে...</span>
+        </div>
+        <p class="mt-3">পরীক্ষার প্রশ্ন লোড হচ্ছে...</p>
+      </div>
+    `;
+    quizEl.innerHTML = loadingHtml;
+    
+    // Modified fetch request with cache-busting
+    const timestamp = new Date().getTime();
+    const res = await fetch(`https://opensheet.elk.sh/1xvjS3P9mzB4FyGvub14r99zWIA3zh7v84WFo_ZLoRV8/1?timestamp=${timestamp}`, {
+      cache: "no-store",
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
       }
-    }
+    });
+    
+    quizData = (await res.json()).filter(q => q["প্রশ্ন"]);
+    total = quizData.length;
+    duration = total * TIME_PER_QUESTION;
+    renderQuiz();
+  } catch (e) {
+    quizEl.innerHTML = `
+      <div class="alert alert-danger">
+        <h5>পরীক্ষা লোড করতে ব্যর্থ হয়েছে</h5>
+        <p>আপনার ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।</p>
+        <button class="btn btn-warning" onclick="window.location.reload()">পৃষ্ঠা রিলোড করুন</button>
+      </div>
+    `;
+    console.error("Error loading quiz:", e);
+  }
+}
 
     function renderQuiz() {
       quizEl.innerHTML = "";
@@ -409,7 +411,7 @@
         <div class="exam-info">
           <h5><i class="bi bi-info-circle"></i> পরীক্ষার তথ্য</h5>
           <p>মোট প্রশ্ন: ${total} টি</p>
-          <p>মোট সময়: ${totalMinutes} মিনিট (প্রতি প্রশ্নের জন্য ৩০ সেকেন্ড)</p>
+          <p>মোট সময়: ${totalMinutes} মিনিট (প্রতি প্রশ্নের জন্য ১ মিনিট)</p>
           <p>অনুত্তরিত প্রশ্ন: ${total} টি</p>
         </div>
       `;
@@ -549,6 +551,7 @@
       accuracyRateEl.innerHTML = `<i class="bi bi-speedometer2"></i> সঠিকতার হার: <strong>${percentage}%</strong>`;
       const poweredByEl = document.getElementById("poweredBy");
       poweredByEl.textContent = "Powered by Sujan Prodhan (CSE, University of Rajshahi)";
+
       
       // Render detailed results
       renderDetailedResults();
@@ -650,6 +653,17 @@
       userAnswers = [];
       duration = 0;
       quizEl.innerHTML = '';
+    });
+
+    // Cache handling
+    window.addEventListener('load', () => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').then(registration => {
+          console.log('ServiceWorker registration successful');
+        }).catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      }
     });
   </script>
 </body>
