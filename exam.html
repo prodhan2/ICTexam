@@ -1,1108 +1,644 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <title>এমসিকিউ টেস্ট সিস্টেম</title>
-  <link href="https://fonts.rabeya.com/css?family=SolaimanLipi" rel="stylesheet" type="text/css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICT MCQ Exam</title>
   <style>
-    .explanation {
-      display: none;
-      font-style: italic;
-      color: #006400;
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #f8f9fa;
-      border-radius: 5px;
+    :root {
+      --primary: #4361ee;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --border: #dee2e6;
     }
-    .option-label.correct {
-      color: green;
-      font-weight: bold;
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    .option-label.wrong {
-      color: red;
-      font-weight: bold;
-    }
-    .question-box {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 16px;
-      background-color: #fff;
-      margin-bottom: 16px;
-      transition: all 0.3s ease;
-    }
-    .question-box:hover {
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .progress {
-      height: 10px;
-      margin-bottom: 20px;
-    }
-    .navbar-brand {
-      font-weight: bold;
-    }
-    #confirmationModal .modal-body {
-      font-size: 1.1rem;
-    }
-    .time-warning {
-      color: #dc3545;
-      animation: pulse 1s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.5; }
-      100% { opacity: 1; }
-    }
-    .question-number {
-      font-weight: bold;
-      color: #0d6efd;
-    }
-    #resultDetails {
-      max-height: 500px;
-      overflow-y: auto;
-    }
+    
     body {
-      font-family: 'SolaimanLipi', 'Siyam Rupali', Arial, sans-serif !important;
-      background-color: #f5f7fa;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+      background: #f5f7fa;
+      color: var(--dark);
+      padding: 20px;
+      min-height: 100vh;
+      position: relative;
+      padding-bottom: 100px;
     }
-    .profile-img {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid white;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    
+    .container {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
     }
-    .result-header {
-      background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
-      color: white;
-      padding: 2rem;
-      border-radius: 8px;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    .score-display {
-      font-size: 3rem;
-      font-weight: bold;
-      color: #28a745;
-    }
-    .result-card {
-      transition: all 0.3s ease;
-      border: none;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    
+    .page {
+      display: none;
+      background: white;
       border-radius: 10px;
-    }
-    .result-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    }
-    .exam-info {
-      background-color: #fff;
-      border-radius: 8px;
-      padding: 15px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
-    .question-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 10px 0;
-      border: 1px solid #ddd;
+    
+    .page.active {
+      display: block;
     }
-    .option-image {
-      max-width: 100px;
-      max-height: 100px;
-      border-radius: 5px;
-      margin-right: 10px;
-      border: 1px solid #ddd;
-    }
-    .image-option-container {
+    
+    .floating-timer {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
       display: flex;
       align-items: center;
-      margin-bottom: 8px;
+      gap: 8px;
     }
-    .floating-timer {
+    
+    .profile-img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+    }
+    
+    .floating-submit {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: #fff;
-      padding: 10px 15px;
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
       border-radius: 50px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      z-index: 1000;
       font-weight: bold;
-      border: 2px solid #0d6efd;
+      z-index: 1000;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
-    .performance-meter {
-      height: 10px;
+    
+    .fixed-submit {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      font-weight: bold;
+      z-index: 1000;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 200px;
+      text-align: center;
+    }
+    
+    .floating-submit:hover, .fixed-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    
+    .floating-submit:disabled, .fixed-submit:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+    
+    select, input {
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 100%;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1rem;
+    }
+    
+    .question-card {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .question-text {
+      font-weight: 600;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+    }
+    
+    .options {
+      display: grid;
+      gap: 0.75rem;
+    }
+    
+    .option {
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .option:hover {
+      background: #f1f3ff;
+    }
+    
+    .option.correct {
+      background: rgba(76, 201, 240, 0.1);
+      border-color: var(--success);
+      color: #006d77;
+    }
+    
+    .option.wrong {
+      background: rgba(247, 37, 133, 0.1);
+      border-color: var(--danger);
+      color: #9d0208;
+    }
+    
+    .explanation {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: #fff9c4;
       border-radius: 5px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-size: 1rem;
+      margin-top: 1rem;
+    }
+    
+    button:hover {
+      background: #3a56d4;
+      transform: translateY(-2px);
+    }
+    
+    .result-card {
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .result-profile {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--primary);
+      margin: 0 auto 1rem;
+    }
+    
+    .score-container {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin: 1rem 0;
+    }
+    
+    .score {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0.5rem 0;
+    }
+    
+    .score-details {
+      display: flex;
+      justify-content: space-around;
+      margin: 1.5rem 0;
+    }
+    
+    .score-item {
+      text-align: center;
+    }
+    
+    .score-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .score-label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .progress-bar {
+      height: 10px;
       background: #e9ecef;
-      margin: 15px 0;
+      border-radius: 5px;
+      margin: 1rem 0;
       overflow: hidden;
     }
-    .performance-fill {
+    
+    .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #28a745, #5cb85c);
-      width: 0%;
+      background: var(--primary);
+      border-radius: 5px;
       transition: width 0.5s ease;
     }
-    .badge-custom {
-      font-size: 0.85em;
-      font-weight: normal;
-      padding: 5px 10px;
-      border-radius: 50px;
+    
+    .student-name {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
     }
-    .question-navigation {
-      position: sticky;
-      top: 20px;
-      margin-bottom: 20px;
+    
+    .time-taken {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 1rem;
     }
-    .nav-btn {
+    
+    .progress {
+      margin: 1rem 0;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--primary);
       width: 40px;
       height: 40px;
-      margin: 2px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 5px !important;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
     }
-    .nav-btn.answered {
-      background-color: #28a745;
-      color: white;
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
-    .nav-btn.current {
-      border: 2px solid #0d6efd;
+    
+    .confirmation-dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      z-index: 2000;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
     }
-    .highlight-box {
-      background-color: #fff8e1;
-      border-left: 4px solid #ffc107;
-      padding: 15px;
-      border-radius: 0 5px 5px 0;
-      margin: 15px 0;
+    
+    .confirmation-dialog p {
+      margin-bottom: 1.5rem;
     }
-    @media (max-width: 768px) {
-      .floating-timer {
-        bottom: 10px;
-        right: 10px;
-        font-size: 0.9em;
-        padding: 8px 12px;
-      }
-      .result-header {
-        padding: 1.5rem;
-      }
-      .score-display {
-        font-size: 2.5rem;
-      }
+    
+    .confirmation-dialog button {
+      margin: 0 0.5rem;
+      padding: 0.5rem 1rem;
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1500;
+    }
+    
+    .powered-by {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+      padding-top: 1rem;
+      border-top: 1px solid #eee;
+    }
+    
+    .powered-by strong {
+      color: var(--primary);
     }
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <i class="bi bi-journal-bookmark-fill"></i> এমসিকিউ পরীক্ষা সিস্টেম
-      </a>
-      <div class="d-flex align-items-center">
-        <span id="topTimer" class="text-white fw-bold me-3 d-none d-md-inline">সময়: ০০:০০</span>
-        <span class="badge bg-light text-dark">
-          <i class="bi bi-people-fill"></i> <span id="currentUserTop">অতিথি</span>
-        </span>
+  <div class="floating-timer" id="timer">
+    <img id="user-profile-img" class="profile-img" src="https://i.postimg.cc/0j8XQJ0x/guest.png">
+    <span id="timer-text">00:00</span>
+  </div>
+  <button class="floating-submit" id="floating-submit-btn" onclick="confirmFinishExam()">পরীক্ষা শেষ করুন</button>
+  <button class="fixed-submit" id="fixed-submit-btn" onclick="confirmFinishExam()">পরীক্ষা শেষ করুন</button>
+  
+  <div class="container">
+    <!-- Start Page -->
+    <div id="start-page" class="page active">
+      <h1>ICT MCQ Exam</h1>
+      <p>পরীক্ষা শুরু করতে আপনার নাম নির্বাচন করুন</p>
+      <select id="student-select">
+        <option value="">নাম নির্বাচন করুন</option>
+        <option value="প্রিয়ন্তী">প্রিয়ন্তী</option>
+        <option value="অর্পিতা">অর্পিতা</option>
+      </select>
+      <button onclick="startExam()">পরীক্ষা শুরু করুন</button>
+    </div>
+    
+    <!-- Loading Page -->
+    <div id="loading-page" class="page">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>প্রশ্ন লোড হচ্ছে...</p>
       </div>
     </div>
-  </nav>
-
-  <div class="container py-4">
-    <!-- Introduction Section -->
-    <div id="introSection" class="text-center mb-5">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <h2 class="mb-3"><i class="bi bi-journal-text"></i> এমসিকিউ পরীক্ষায় স্বাগতম</h2>
-          <p class="lead">এই পরীক্ষাটি বহুনির্বাচনী প্রশ্ন নিয়ে গঠিত। নিচের নির্দেশাবলী পড়ুন:</p>
-          <div class="card border-primary mx-auto">
-            <div class="card-header bg-primary text-white">
-              <h5 class="card-title mb-0"><i class="bi bi-info-circle"></i> পরীক্ষার নির্দেশাবলী</h5>
-            </div>
-            <div class="card-body">
-              <ul class="text-start list-group list-group-flush">
-                <li class="list-group-item"><i class="bi bi-chevron-right"></i> ড্রপডাউন থেকে আপনার নাম নির্বাচন করুন</li>
-                <li class="list-group-item"><i class="bi bi-chevron-right"></i> প্রতিটি প্রশ্নের জন্য 30 সেকেন্ড সময় বরাদ্দ থাকবে</li>
-                <li class="list-group-item"><i class="bi bi-chevron-right"></i> প্রতিটি প্রশ্নের একটি মাত্র সঠিক উত্তর আছে</li>
-                <li class="list-group-item"><i class="bi bi-chevron-right"></i> উত্তর নির্বাচন করলে তাৎক্ষণিকভাবে ফলাফল দেখা যাবে</li>
-                <li class="list-group-item"><i class="bi bi-chevron-right"></i> যে কোনো সময় পরীক্ষা জমা দিতে পারবেন</li>
-                <li class="list-group-item"><i class="bi bi-chevron-right"></i> প্রশ্নে চিত্র থাকলে সেটি দেখানো হবে</li>
-              </ul>
-            </div>
+    
+    <!-- Exam Page -->
+    <div id="exam-page" class="page">
+      <div class="student-name" id="current-student"></div>
+      <div class="progress" id="progress"></div>
+      <div id="quiz" class="quiz"></div>
+    </div>
+    
+    <!-- Result Page -->
+    <div id="result-page" class="page">
+      <div class="result-card">
+        <img id="result-profile-img" class="result-profile" src="">
+        <div class="student-name" id="result-student"></div>
+        <div class="time-taken" id="time-taken">সময় লেগেছে: 00:00</div>
+        
+        <div class="score-container">
+          <div class="score" id="score">0/0</div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- User Selection -->
-    <div id="userSelection" class="mb-4 text-center">
-      <div class="row justify-content-center">
-        <div class="col-md-6">
-          <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-              <h5 class="card-title mb-0"><i class="bi bi-person-circle"></i> আপনার পরীক্ষা শুরু করুন</h5>
+          
+          <div class="score-details">
+            <div class="score-item">
+              <div class="score-value" id="correct-answers">0</div>
+              <div class="score-label">সঠিক উত্তর</div>
             </div>
-            <div class="card-body">
-              <div class="mb-3">
-                <label for="userSelect" class="form-label">নাম নির্বাচন করুন:</label>
-                <select id="userSelect" class="form-select mb-3">
-                  <option selected disabled value="">নাম নির্বাচন করুন...</option>
-                  <option value="অর্পিতা">অর্পিতা</option>
-                  <option value="প্রিয়ন্তী">প্রিয়ন্তী</option>
-                  <option value="অতিথি">অতিথি</option>
-                </select>
-              </div>
-              <div class="d-grid gap-2">
-                <button class="btn btn-primary" id="startBtn" disabled>
-                  <i class="bi bi-play-circle"></i> পরীক্ষা শুরু করুন
-                </button>
-              </div>
+            <div class="score-item">
+              <div class="score-value" id="wrong-answers">0</div>
+              <div class="score-label">ভুল উত্তর</div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Quiz Container -->
-    <div id="quizContainer" class="d-none">
-      <div class="row">
-        <!-- Question Navigation -->
-        <div class="col-md-3 col-lg-2 d-none d-md-block">
-          <div class="question-navigation">
-            <div class="card">
-              <div class="card-header bg-light">
-                <h6 class="mb-0"><i class="bi bi-list-ol"></i> প্রশ্ন নেভিগেশন</h6>
-              </div>
-              <div class="card-body p-2">
-                <div id="questionNav" class="d-flex flex-wrap"></div>
-              </div>
-              <div class="card-footer bg-light">
-                <small class="text-muted">ক্লিক করে প্রশ্নে যান</small>
-              </div>
+            <div class="score-item">
+              <div class="score-value" id="percentage">0%</div>
+              <div class="score-label">সাফল্যের হার</div>
             </div>
           </div>
         </div>
         
-        <!-- Main Quiz Content -->
-        <div class="col-md-9 col-lg-10">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-              <span class="badge bg-primary">
-                <i class="bi bi-person"></i> পরীক্ষার্থী: <span id="currentUserDisplay"></span>
-              </span>
-              <span class="badge bg-info text-dark ms-2">
-                <i class="bi bi-question-circle"></i> <span id="answeredCountDisplay">0</span>/<span id="totalCountDisplay">0</span>
-              </span>
-            </div>
-            <div id="timer" class="text-danger fw-bold fs-5 d-none d-md-block">সময়: ০০:০০</div>
-          </div>
-          
-          <div class="progress">
-            <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" 
-                 role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          
-          <div class="d-flex justify-content-between mb-4">
-            <button id="backToUserBtn" class="btn btn-outline-secondary">
-              <i class="bi bi-arrow-left-circle"></i> ব্যবহারকারী পরিবর্তন
-            </button>
-            <div>
-              <button id="submitBtn" class="btn btn-success">
-                <i class="bi bi-send-check"></i> পরীক্ষা জমা দিন
-              </button>
-            </div>
-          </div>
-          
-          <div id="quiz"></div>
-          
-          <div class="text-center mt-4 mb-5">
-            <button id="bottomSubmitBtn" class="btn btn-success btn-lg">
-              <i class="bi bi-send-check"></i> পরীক্ষা জমা দিন
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Result Section -->
-    <div id="resultSection" class="d-none">
-      <div class="result-header">
-        <img id="userProfileImg" class="profile-img mb-3" src="" alt="User Profile">
-        <h2 id="scoreDisplay" class="mb-2"></h2>
-        <div class="score-display" id="scorePercentage"></div>
-        <div class="mt-3">
-          <span class="badge bg-light text-dark me-2">
-            <i class="bi bi-check-circle"></i> <span id="correctCount">0</span>
-          </span>
-          <span class="badge bg-light text-dark me-2">
-            <i class="bi bi-x-circle"></i> <span id="wrongCount">0</span>
-          </span>
-          <span class="badge bg-light text-dark">
-            <i class="bi bi-dash-circle"></i> <span id="unansweredCount">0</span>
-          </span>
-        </div>
-      </div>
-      
-      <div class="container">
-        <div class="row">
-          <div class="col-md-6 mb-4">
-            <div class="card h-100 result-card">
-              <div class="card-body text-center">
-                <h5 class="card-title"><i class="bi bi-clipboard-data"></i> পরীক্ষার সারাংশ</h5>
-                <div class="mt-4" id="scoreFraction"></div>
-                <div class="performance-meter mt-4">
-                  <div id="performanceFill" class="performance-fill"></div>
-                </div>
-                <div class="mt-3" id="timeTaken"></div>
-                <div class="mt-3" id="accuracyRate"></div>
-                <div class="mt-3" id="completionRate"></div>
-                <div class="mt-4">
-                  <span class="badge bg-primary badge-custom">
-                    <i class="bi bi-award"></i> <span id="performanceLabel">সাধারণ</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-md-6">
-            <div class="card h-100 result-card">
-              <div class="card-body">
-                <h5 class="card-title text-center"><i class="bi bi-bar-chart-line"></i> আপনার পারফরম্যান্স</h5>
-                <canvas id="resultChart"></canvas>
-              </div>
-            </div>
-          </div>
+        <div class="powered-by">
+          Powered by <strong>Sujan Prodhan</strong>, Computer Science and Engineering, Rajshahi University
         </div>
         
-        <div class="card mt-4 result-card">
-          <div class="card-header bg-light">
-            <h5 class="mb-0"><i class="bi bi-list-check"></i> বিস্তারিত ফলাফল</h5>
-          </div>
-          <div class="card-body">
-            <div id="resultDetails"></div>
-          </div>
-        </div>
-        
-        <div class="text-center mt-4 mb-5">
-          <button id="restartBtn" class="btn btn-primary btn-lg">
-            <i class="bi bi-arrow-repeat"></i> আবার পরীক্ষা দিন
-          </button>
-          <button id="newUserBtn" class="btn btn-outline-primary btn-lg ms-3">
-            <i class="bi bi-person-plus"></i> নতুন ব্যবহারকারী
-          </button>
-          <button id="downloadBtn" class="btn btn-success btn-lg ms-3">
-            <i class="bi bi-download"></i> ফলাফল ডাউনলোড
-          </button>
-        </div>
+        <button onclick="location.reload()">আবার চেষ্টা করুন</button>
       </div>
     </div>
   </div>
 
-  <!-- Floating Timer (for mobile) -->
-  <div id="floatingTimer" class="floating-timer d-md-none">
-    <i class="bi bi-clock"></i> <span id="mobileTimer">00:00</span>
-  </div>
-
-  <!-- Confirmation Modal -->
-  <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title"><i class="bi bi-exclamation-triangle"></i> জমা দেওয়ার নিশ্চিতকরণ</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>আপনি কি নিশ্চিতভাবে আপনার পরীক্ষা জমা দিতে চান?</p>
-          <div class="alert alert-info">
-            <i class="bi bi-info-circle"></i> আপনি <span id="answeredCount">০</span> টি প্রশ্নের উত্তর দিয়েছেন <span id="totalCount">০</span> টির মধ্যে।
-          </div>
-          <div id="estimatedScore" class="text-center fw-bold mt-3"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            <i class="bi bi-x-circle"></i> বাতিল
-          </button>
-          <button type="button" class="btn btn-primary" id="confirmSubmitBtn">
-            <i class="bi bi-check-circle"></i> পরীক্ষা জমা দিন
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     // DOM Elements
-    const quizEl = document.getElementById("quiz");
-    const userSelect = document.getElementById("userSelect");
-    const startBtn = document.getElementById("startBtn");
-    const quizContainer = document.getElementById("quizContainer");
-    const submitBtn = document.getElementById("submitBtn");
-    const bottomSubmitBtn = document.getElementById("bottomSubmitBtn");
-    const scoreDisplay = document.getElementById("scoreDisplay");
-    const timerEl = document.getElementById("timer");
-    const mobileTimerEl = document.getElementById("mobileTimer");
-    const floatingTimerEl = document.getElementById("floatingTimer");
-    const userSelection = document.getElementById("userSelection");
-    const introSection = document.getElementById("introSection");
-    const resultSection = document.getElementById("resultSection");
-    const currentUserDisplay = document.getElementById("currentUserDisplay");
-    const currentUserTop = document.getElementById("currentUserTop");
-    const progressBar = document.getElementById("progressBar");
-    const backToUserBtn = document.getElementById("backToUserBtn");
-    const restartBtn = document.getElementById("restartBtn");
-    const newUserBtn = document.getElementById("newUserBtn");
-    const downloadBtn = document.getElementById("downloadBtn");
-    const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-    const confirmSubmitBtn = document.getElementById('confirmSubmitBtn');
-    const answeredCountEl = document.getElementById('answeredCount');
-    const totalCountEl = document.getElementById('totalCount');
-    const resultDetailsEl = document.getElementById('resultDetails');
-    const scorePercentageEl = document.getElementById('scorePercentage');
-    const scoreFractionEl = document.getElementById('scoreFraction');
-    const timeTakenEl = document.getElementById('timeTaken');
-    const accuracyRateEl = document.getElementById('accuracyRate');
-    const completionRateEl = document.getElementById('completionRate');
-    const resultChartEl = document.getElementById('resultChart');
-    const userProfileImg = document.getElementById('userProfileImg');
-    const questionNavEl = document.getElementById('questionNav');
-    const answeredCountDisplay = document.getElementById('answeredCountDisplay');
-    const totalCountDisplay = document.getElementById('totalCountDisplay');
-    const correctCountEl = document.getElementById('correctCount');
-    const wrongCountEl = document.getElementById('wrongCount');
-    const unansweredCountEl = document.getElementById('unansweredCount');
-    const performanceFillEl = document.getElementById('performanceFill');
-    const performanceLabelEl = document.getElementById('performanceLabel');
-    const estimatedScoreEl = document.getElementById('estimatedScore');
-    const topTimerEl = document.getElementById('topTimer');
-
-    // Quiz Variables
+    const pages = {
+      start: document.getElementById('start-page'),
+      loading: document.getElementById('loading-page'),
+      exam: document.getElementById('exam-page'),
+      result: document.getElementById('result-page')
+    };
+    const studentSelect = document.getElementById('student-select');
+    const currentStudentEl = document.getElementById('current-student');
+    const resultStudentEl = document.getElementById('result-student');
+    const quizContainer = document.getElementById('quiz');
+    const timerText = document.getElementById('timer-text');
+    const scoreElement = document.getElementById('score');
+    const timeTakenElement = document.getElementById('time-taken');
+    const progressElement = document.getElementById('progress');
+    const floatingSubmitBtn = document.getElementById('floating-submit-btn');
+    const fixedSubmitBtn = document.getElementById('fixed-submit-btn');
+    const userProfileImg = document.getElementById('user-profile-img');
+    const resultProfileImg = document.getElementById('result-profile-img');
+    const correctAnswersEl = document.getElementById('correct-answers');
+    const wrongAnswersEl = document.getElementById('wrong-answers');
+    const percentageEl = document.getElementById('percentage');
+    const progressFill = document.getElementById('progress-fill');
+    
+    // Exam Variables
+    const sheetURL = "https://opensheet.elk.sh/1xvjS3P9mzB4FyGvub14r99zWIA3zh7v84WFo_ZLoRV8/1";
     let quizData = [];
-    let currentUser = "";
-    let score = 0;
-    let total = 0;
-    let timer;
-    let duration = 0;
-    let startTime;
-    let answeredQuestions = 0;
-    let userAnswers = [];
-    let currentQuestionIndex = 0;
-    const TIME_PER_QUESTION = 30; // 30 seconds per question
+    let studentName = '';
+    let timer = 0;
+    let interval;
+    let answeredCount = 0;
 
-    // Initialize
-    userSelect.addEventListener("change", () => {
-      startBtn.disabled = !userSelect.value;
-    });
-
-    startBtn.addEventListener("click", async () => {
-      currentUser = userSelect.value;
-      currentUserDisplay.textContent = currentUser;
-      currentUserTop.textContent = currentUser;
-      userSelection.classList.add("d-none");
-      introSection.classList.add("d-none");
-      quizContainer.classList.remove("d-none");
-      document.body.scrollIntoView({ behavior: 'smooth' });
-      await loadQuiz();
-      startTimer();
-      startTime = new Date();
-    });
-
-    backToUserBtn.addEventListener("click", () => {
-      clearInterval(timer);
-      if (answeredQuestions > 0) {
-        confirmationModal.hide();
-        if (confirm("আপনি ইতিমধ্যে কিছু প্রশ্নের উত্তর দিয়েছেন। আপনি কি নিশ্চিতভাবে ব্যবহারকারী পরিবর্তন করতে চান এবং আপনার অগ্রগতি হারাতে চান?")) {
-          resetQuiz();
-        }
+    function showPage(pageId) {
+      Object.values(pages).forEach(page => page.classList.remove('active'));
+      pages[pageId].classList.add('active');
+      
+      // Show/hide submit buttons
+      if (pageId === 'exam') {
+        floatingSubmitBtn.style.display = 'block';
+        fixedSubmitBtn.style.display = 'block';
       } else {
-        resetQuiz();
-      }
-    });
-
-    function resetQuiz() {
-      quizContainer.classList.add("d-none");
-      userSelection.classList.remove("d-none");
-      introSection.classList.remove("d-none");
-      score = 0;
-      answeredQuestions = 0;
-      userAnswers = [];
-      duration = 0;
-      quizEl.innerHTML = "";
-      questionNavEl.innerHTML = "";
-      currentQuestionIndex = 0;
-      floatingTimerEl.classList.remove('time-warning');
-      topTimerEl.classList.remove('time-warning');
-    }
-
-    function startTimer() {
-      updateTime();
-      timer = setInterval(() => {
-        duration--;
-        updateTime();
-        
-        if (duration === 30) {
-          timerEl.classList.add("time-warning");
-          mobileTimerEl.classList.add("time-warning");
-          floatingTimerEl.classList.add("time-warning");
-          topTimerEl.classList.add("time-warning");
-        }
-        
-        if (duration <= 0) {
-          clearInterval(timer);
-          submitQuiz();
-        }
-      }, 1000);
-    }
-
-    function updateTime() {
-      const min = String(Math.floor(duration / 60)).padStart(2, '০');
-      const sec = String(duration % 60).padStart(2, '০');
-      timerEl.textContent = `সময়: ${min}:${sec}`;
-      mobileTimerEl.textContent = `${min}:${sec}`;
-      topTimerEl.textContent = `সময়: ${min}:${sec}`;
-      
-      const totalTime = total * TIME_PER_QUESTION;
-      const progress = ((totalTime - duration) / totalTime) * 100;
-      progressBar.style.width = `${progress}%`;
-      progressBar.setAttribute('aria-valuenow', progress);
-      
-      if (duration < 30) {
-        progressBar.classList.remove("bg-primary");
-        progressBar.classList.add("bg-danger");
+        floatingSubmitBtn.style.display = 'none';
+        fixedSubmitBtn.style.display = 'none';
       }
     }
 
-    async function loadQuiz() {
-      try {
-        const loadingHtml = `
-          <div class="text-center py-5">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-              <span class="visually-hidden">লোড হচ্ছে...</span>
-            </div>
-            <p class="mt-3 fs-5">পরীক্ষার প্রশ্ন লোড হচ্ছে...</p>
-          </div>
-        `;
-        quizEl.innerHTML = loadingHtml;
-        
-        // Add timestamp to URL to prevent caching
-        const timestamp = new Date().getTime();
-        const res = await fetch(`https://opensheet.elk.sh/1xvjS3P9mzB4FyGvub14r99zWIA3zh7v84WFo_ZLoRV8/1?timestamp=${timestamp}`, {
-          cache: "no-store",
-          headers: {
-            'Cache-Control': 'no-cache, no-store, must-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0'
-          }
-        });
-        
-        quizData = (await res.json()).filter(q => q["প্রশ্ন"]);
-        total = quizData.length;
-        duration = total * TIME_PER_QUESTION;
-        renderQuiz();
-      } catch (e) {
-        console.error("Error loading quiz:", e);
-        quizEl.innerHTML = `
-          <div class="alert alert-danger">
-            <h5><i class="bi bi-exclamation-triangle"></i> পরীক্ষা লোড করতে ব্যর্থ হয়েছে</h5>
-            <p>আপনার ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।</p>
-            <button class="btn btn-warning" onclick="window.location.reload()">
-              <i class="bi bi-arrow-clockwise"></i> পৃষ্ঠা রিলোড করুন
-            </button>
-          </div>
-        `;
+    function startExam() {
+      studentName = studentSelect.value.trim();
+      if (!studentName) {
+        alert('দয়া করে আপনার নাম নির্বাচন করুন');
+        return;
       }
-    }
-
-    function renderQuiz() {
-      quizEl.innerHTML = "";
-      questionNavEl.innerHTML = "";
-      
-      // Display exam info
-      const totalMinutes = Math.floor(duration / 60);
-      quizEl.innerHTML = `
-        <div class="exam-info">
-          <h5><i class="bi bi-info-circle"></i> পরীক্ষার তথ্য</h5>
-          <div class="row">
-            <div class="col-md-4">
-              <p><i class="bi bi-question-circle"></i> মোট প্রশ্ন: ${total} টি</p>
-            </div>
-            <div class="col-md-4">
-              <p><i class="bi bi-clock"></i> মোট সময়: ${totalMinutes} মিনিট</p>
-            </div>
-            <div class="col-md-4">
-              <p><i class="bi bi-hourglass"></i> অনুত্তরিত প্রশ্ন: ${total} টি</p>
-            </div>
-          </div>
-          <div class="highlight-box">
-            <p><i class="bi bi-lightbulb"></i> <strong>পরীক্ষার টিপস:</strong> প্রতিটি প্রশ্নের উত্তর দিলে স্বয়ংক্রিয়ভাবে পরবর্তী প্রশ্নে স্ক্রল হবে।</p>
-          </div>
-        </div>
-      `;
-      
-      // Render question navigation buttons
-      quizData.forEach((q, i) => {
-        const navBtn = document.createElement('button');
-        navBtn.className = 'btn btn-outline-primary nav-btn';
-        navBtn.textContent = q["No."];
-        navBtn.title = `প্রশ্ন ${q["No."]} এ যান`;
-        navBtn.addEventListener('click', () => {
-          document.getElementById(`question-${i}`).scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-          });
-          updateCurrentQuestion(i);
-        });
-        questionNavEl.appendChild(navBtn);
-      });
-      
-      // Render questions
-      quizData.forEach((q, i) => {
-        const div = document.createElement("div");
-        div.className = "question-box";
-        div.id = `question-${i}`;
-
-        // Check if question has an image
-        const questionImage = q["চিত্র"] ? `
-          <img src="${q["চিত্র"]}" alt="Question Image" class="question-image img-fluid">
-        ` : '';
-        
-        // Render options with possible images
-        const options = ["A", "B", "C", "D"].map(opt => {
-          const optionText = q[opt] || "";
-          const isImage = optionText.startsWith("http") || optionText.startsWith("data:image");
-          
-          if (isImage) {
-            return `
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="q${i}" id="q${i}_${opt}" value="${opt}" data-index="${i}">
-                <label class="form-check-label option-label" for="q${i}_${opt}">
-                  <div class="image-option-container">
-                    <span>${opt})</span>
-                    <img src="${optionText}" alt="Option ${opt}" class="option-image">
-                  </div>
-                </label>
-              </div>
-            `;
-          } else {
-            return `
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="q${i}" id="q${i}_${opt}" value="${opt}" data-index="${i}">
-                <label class="form-check-label option-label" for="q${i}_${opt}">
-                  ${opt}) ${optionText}
-                </label>
-              </div>
-            `;
-          }
-        }).join("");
-
-        div.innerHTML = `
-          <h5><span class="question-number">${q["No."]}.</span> ${q["প্রশ্ন"]}</h5>
-          ${questionImage}
-          ${options}
-          <p class="explanation" id="exp${i}">
-            <strong><i class="bi bi-lightbulb"></i> ব্যাখ্যা:</strong> ${q["ব্যাখ্যা"] || "কোনো ব্যাখ্যা পাওয়া যায়নি।"}
-          </p>
-        `;
-        quizEl.appendChild(div);
-      });
-
-      // Initialize first question as current
-      updateCurrentQuestion(0);
-      
-      // Update counts
-      totalCountDisplay.textContent = total;
-      answeredCountDisplay.textContent = answeredQuestions;
-
-      // Attach event listeners
-      quizData.forEach((q, i) => {
-        const inputs = document.querySelectorAll(`input[name="q${i}"]`);
-        inputs.forEach(input => {
-          input.addEventListener("change", () => {
-            const selected = input.value;
-            const correct = q["উত্তর"];
-            const explanation = document.getElementById(`exp${i}`);
-            explanation.style.display = "block";
-
-            // Store user answer
-            userAnswers[i] = {
-              question: q["প্রশ্ন"],
-              selected: selected,
-              correct: correct,
-              isCorrect: selected === correct,
-              explanation: q["ব্যাখ্যা"] || "কোনো ব্যাখ্যা পাওয়া যায়নি।",
-              questionNo: q["No."],
-              questionImage: q["চিত্র"] || null,
-              options: {
-                A: q["A"] || "",
-                B: q["B"] || "",
-                C: q["C"] || "",
-                D: q["D"] || ""
-              }
-            };
-
-            // Disable all inputs for this question
-            inputs.forEach(inp => {
-              inp.disabled = true;
-              const label = document.querySelector(`label[for="${inp.id}"]`);
-              label.classList.remove("correct", "wrong");
-
-              if (inp.value === correct) label.classList.add("correct");
-              else if (inp.checked && inp.value !== correct) label.classList.add("wrong");
-            });
-
-            // Update navigation button
-            const navBtn = questionNavEl.children[i];
-            navBtn.classList.remove('btn-outline-primary');
-            navBtn.classList.add('answered');
-            if (selected === correct) {
-              navBtn.classList.add('btn-success');
-            } else {
-              navBtn.classList.add('btn-danger');
-            }
-
-            // Update score and answered count
-            answeredQuestions++;
-            if (selected === correct) score++;
-            
-            // Update progress
-            updateAnsweredProgress();
-            
-            // Scroll to next unanswered question
-            scrollToNextUnanswered();
-          });
-        });
-      });
-      
-      // Add submit event listeners
-      submitBtn.addEventListener("click", showConfirmationModal);
-      bottomSubmitBtn.addEventListener("click", showConfirmationModal);
-      confirmSubmitBtn.addEventListener("click", submitQuiz);
-    }
-    
-    function updateCurrentQuestion(index) {
-      // Remove current class from all nav buttons
-      Array.from(questionNavEl.children).forEach(btn => {
-        btn.classList.remove('current');
-      });
-      
-      // Add current class to selected question
-      if (questionNavEl.children[index]) {
-        questionNavEl.children[index].classList.add('current');
-      }
-      
-      currentQuestionIndex = index;
-    }
-    
-    function updateAnsweredProgress() {
-      const progress = Math.round((answeredQuestions / total) * 100);
-      progressBar.style.width = `${progress}%`;
-      progressBar.setAttribute('aria-valuenow', progress);
-      progressBar.textContent = `${answeredQuestions}/${total} উত্তর দেওয়া হয়েছে`;
-      answeredCountDisplay.textContent = answeredQuestions;
-      
-      // Update unanswered count in exam info
-      const unanswered = total - answeredQuestions;
-      const examInfo = document.querySelector('.exam-info');
-      if (examInfo) {
-        examInfo.querySelector('p:last-child').innerHTML = `<i class="bi bi-hourglass"></i> অনুত্তরিত প্রশ্ন: ${unanswered} টি`;
-      }
-    }
-    
-    function scrollToNextUnanswered() {
-      for (let i = 0; i < quizData.length; i++) {
-        const inputs = document.querySelectorAll(`input[name="q${i}"]`);
-        const anyChecked = Array.from(inputs).some(input => input.checked);
-        
-        if (!anyChecked) {
-          document.getElementById(`question-${i}`).scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-          });
-          updateCurrentQuestion(i);
-          break;
-        }
-      }
-    }
-    
-    function showConfirmationModal() {
-      answeredCountEl.textContent = answeredQuestions;
-      totalCountEl.textContent = total;
-      
-      // Calculate estimated score
-      const percentage = Math.round((score / answeredQuestions) * 100) || 0;
-      const estimatedTotalScore = Math.round((percentage / 100) * total);
-      
-      estimatedScoreEl.innerHTML = `
-        <div class="alert alert-warning">
-          <i class="bi bi-graph-up"></i> আনুমানিক স্কোর: ${score}/${answeredQuestions} (${percentage}%)<br>
-          যদি বাকি ${total - answeredQuestions} টি প্রশ্নের ${percentage}% সঠিক হয়: ${estimatedTotalScore}/${total}
-        </div>
-      `;
-      
-      confirmationModal.show();
-    }
-
-    function submitQuiz() {
-      clearInterval(timer);
-      confirmationModal.hide();
-      quizContainer.classList.add("d-none");
-      resultSection.classList.remove("d-none");
       
       // Set profile image based on user
-      if (currentUser === "প্রিয়ন্তী") {
+      if (studentName === "প্রিয়ন্তী") {
         userProfileImg.src = "https://i.postimg.cc/zX1Dt2nx/image.png";
-      } else if (currentUser === "অর্পিতা") {
+      } else if (studentName === "অর্পিতা") {
         userProfileImg.src = "https://i.postimg.cc/L4DQwnPG/image.png";
       } else {
         userProfileImg.src = "https://i.postimg.cc/0j8XQJ0x/guest.png";
       }
       
-      const endTime = new Date();
-      const timeTaken = Math.round((endTime - startTime) / 1000);
-      const minutes = Math.floor(timeTaken / 60);
-      const seconds = timeTaken % 60;
-      const percentage = Math.round((score / total) * 100);
-      const accuracy = answeredQuestions > 0 ? Math.round((score / answeredQuestions) * 100) : 0;
-      const completionRate = Math.round((answeredQuestions / total) * 100);
-      
-      // Calculate wrong and unanswered counts
-      const wrongCount = answeredQuestions - score;
-      const unansweredCount = total - answeredQuestions;
-      
-      // Display results with modern layout
-      scoreDisplay.textContent = `${currentUser}-এর ICT পরীক্ষার ফলাফল`;
-      scorePercentageEl.textContent = `${percentage}%`;
-      scoreFractionEl.innerHTML = `<i class="bi bi-check-circle"></i> <strong>${score} / ${total}</strong> প্রশ্ন সঠিক উত্তর`;
-      timeTakenEl.innerHTML = `<i class="bi bi-clock"></i> সময় নিয়েছেন: <strong>${minutes} মিনিট ${seconds} সেকেন্ড</strong>`;
-      accuracyRateEl.innerHTML = `<i class="bi bi-speedometer2"></i> সঠিকতার হার: <strong>${accuracy}%</strong>`;
-      completionRateEl.innerHTML = `<i class="bi bi-percent"></i> সম্পূর্ণতা: <strong>${completionRate}%</strong>`;
-      
-      // Update counts
-      correctCountEl.textContent = score;
-      wrongCountEl.textContent = wrongCount;
-      unansweredCountEl.textContent = unansweredCount;
-      
-      // Update performance meter
-      performanceFillEl.style.width = `${percentage}%`;
-      
-      // Set performance label
-      if (percentage >= 80) {
-        performanceLabelEl.textContent = "অসাধারণ";
-      } else if (percentage >= 60) {
-        performanceLabelEl.textContent = "ভালো";
-      } else if (percentage >= 40) {
-        performanceLabelEl.textContent = "সাধারণ";
-      } else {
-        performanceLabelEl.textContent = "খারাপ";
-      }
-      
-      // Render detailed results
-      renderDetailedResults();
-      
-      // Render chart
-      renderResultChart();
-      
-      // Scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showPage('loading');
+      fetchQuestions();
     }
-    
-    function renderDetailedResults() {
-      let html = '';
-      
-      quizData.forEach((q, i) => {
-        const userAnswer = userAnswers[i] || {
-          selected: 'উত্তর দেওয়া হয়নি',
-          isCorrect: false,
-          explanation: q["ব্যাখ্যা"] || "কোনো ব্যাখ্যা পাওয়া যায়নি।",
-          questionNo: q["No."]
-        };
+
+    async function fetchQuestions() {
+      try {
+        const response = await fetch(sheetURL);
+        const data = await response.json();
         
-        // Check if options contain images
-        const optionsWithImages = {};
-        ["A", "B", "C", "D"].forEach(opt => {
-          const optionText = q[opt] || "";
-          optionsWithImages[opt] = {
-            text: optionText,
-            isImage: optionText.startsWith("http") || optionText.startsWith("data:image")
-          };
-        });
-        
-        // Question image if exists
-        const questionImage = q["চিত্র"] ? `
-          <div class="mb-2">
-            <strong>প্রশ্নের চিত্র:</strong><br>
-            <img src="${q["চিত্র"]}" alt="Question Image" class="question-image img-fluid mt-2">
-          </div>
-        ` : '';
-        
-        // Selected answer display
-        let selectedAnswerDisplay = '';
-        if (userAnswer.selected === 'উত্তর দেওয়া হয়নি') {
-          selectedAnswerDisplay = `<span class="text-danger">উত্তর দেওয়া হয়নি</span>`;
-        } else {
-          if (optionsWithImages[userAnswer.selected].isImage) {
-            selectedAnswerDisplay = `
-              <span class="${userAnswer.isCorrect ? 'text-success' : 'text-danger'}">
-                ${userAnswer.selected}) <img src="${optionsWithImages[userAnswer.selected].text}" alt="Selected Option" class="option-image">
-              </span>
-            `;
-          } else {
-            selectedAnswerDisplay = `
-              <span class="${userAnswer.isCorrect ? 'text-success' : 'text-danger'}">
-                ${userAnswer.selected}) ${optionsWithImages[userAnswer.selected].text}
-              </span>
-            `;
-          }
-        }
-        
-        // Correct answer display
-        let correctAnswerDisplay = '';
-        if (optionsWithImages[q["উত্তর"]].isImage) {
-          correctAnswerDisplay = `
-            ${q["উত্তর"]}) <img src="${optionsWithImages[q["উত্তর"]].text}" alt="Correct Option" class="option-image">
-          `;
-        } else {
-          correctAnswerDisplay = `
-            ${q["উত্তর"]}) ${optionsWithImages[q["উত্তর"]].text}
-          `;
-        }
-        
-        html += `
-          <div class="mb-4 p-3 ${userAnswer.isCorrect ? 'bg-success bg-opacity-10' : 'bg-danger bg-opacity-10'} rounded">
-            <h5>${q["No."]}. ${q["প্রশ্ন"]}</h5>
-            ${questionImage}
-            <p class="mb-1"><strong>আপনার উত্তর:</strong> ${selectedAnswerDisplay}</p>
-            <p class="mb-1"><strong>সঠিক উত্তর:</strong> ${correctAnswerDisplay}</p>
-            <p class="mb-0"><strong><i class="bi bi-lightbulb"></i> ব্যাখ্যা:</strong> ${userAnswer.explanation}</p>
-          </div>
-        `;
-      });
-      
-      resultDetailsEl.innerHTML = html;
-    }
-    
-    function renderResultChart() {
-      const correctCount = score;
-      const incorrectCount = answeredQuestions - score;
-      const unansweredCount = total - answeredQuestions;
-      
-      const ctx = resultChartEl.getContext('2d');
-      new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: ['সঠিক', 'ভুল', 'অনুত্তরিত'],
-          datasets: [{
-            data: [correctCount, incorrectCount, unansweredCount],
-            backgroundColor: [
-              '#28a745',
-              '#dc3545',
-              '#6c757d'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                font: {
-                  family: 'SolaimanLipi, Siyam Rupali, Arial, sans-serif'
-                }
-              }
-            },
-            tooltip: {
-              callbacks: {
-                label: function(context) {
-                  const label = context.label || '';
-                  const value = context.raw || 0;
-                  const percentage = Math.round((value / total) * 100);
-                  return `${label}: ${value} (${percentage}%)`;
-                }
-              }
-            }
+        // Transform the data to match our format
+        quizData = data.map(item => ({
+          id: item["No."],
+          question: item["প্রশ্ন"],
+          options: {
+            A: item["A"],
+            B: item["B"],
+            C: item["C"],
+            D: item["D"]
           },
-          cutout: '70%',
-          animation: {
-            animateScale: true,
-            animateRotate: true
-          }
-        }
-      });
+          answer: item["উত্তর"],
+          explanation: item["ব্যাখ্যা"]
+        }));
+        
+        initializeExam();
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+        alert("প্রশ্ন লোড করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।");
+        showPage('start');
+      }
     }
-    
-    // Download result as image
-    downloadBtn.addEventListener('click', () => {
-      const resultCard = document.querySelector('.result-header').parentNode;
-      
-      html2canvas(resultCard, {
-        scale: 2,
-        logging: false,
-        useCORS: true,
-        allowTaint: true
-      }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `${currentUser}-এর-ICT-পরীক্ষার-ফলাফল.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      });
-    });
-    
-    // Restart buttons
-    restartBtn.addEventListener('click', () => {
-      resultSection.classList.add('d-none');
-      quizContainer.classList.remove('d-none');
-      score = 0;
-      answeredQuestions = 0;
-      userAnswers = [];
-      duration = total * TIME_PER_QUESTION;
-      startTime = new Date();
+
+    function initializeExam() {
+      currentStudentEl.textContent = studentName;
       renderQuiz();
       startTimer();
-    });
-    
-    newUserBtn.addEventListener('click', () => {
-      resultSection.classList.add('d-none');
-      userSelection.classList.remove('d-none');
-      introSection.classList.remove('d-none');
-      score = 0;
-      answeredQuestions = 0;
-      userAnswers = [];
-      duration = 0;
-      quizEl.innerHTML = '';
-      questionNavEl.innerHTML = '';
-    });
+      showPage('exam');
+      updateProgress();
+    }
 
-    // Prevent caching by adding meta tags and headers
-    window.addEventListener('pageshow', function(event) {
-      // If page is loaded from cache, reload it
-      if (event.persisted) {
-        window.location.reload();
-      }
-    });
-    
-    // Handle window resize
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 768) {
-        floatingTimerEl.classList.remove('d-none');
-      } else {
-        floatingTimerEl.classList.add('d-none');
-      }
-    });
+    function startTimer() {
+      timer = 0;
+      clearInterval(interval);
+      interval = setInterval(() => {
+        timer++;
+        const minutes = Math.floor(timer / 60).toString().padStart(2, '0');
+        const seconds = (timer % 60).toString().padStart(2, '0');
+        timerText.textContent = `${minutes}:${seconds}`;
+      }, 1000);
+    }
+
+    function renderQuiz() {
+      quizContainer.innerHTML = '';
+      quizData.forEach((q) => {
+        const questionEl = document.createElement('div');
+        questionEl.className = 'question-card';
+        questionEl.innerHTML = `
+          <div class="question-text">${q.id}. ${q.question}</div>
+          <div class="options" id="options-${q.id}"></div>
+          <div class="explanation">${q.explanation}</div>
+        `;
+        
+        const optionsContainer = questionEl.querySelector(`#options-${q.id}`);
+        
+        Object.entries(q.options).forEach(([key, value]) => {
+          const option = document.createElement('div');
+          option.className = 'option';
+          option.textContent = `${key}. ${value}`;
+          option.dataset.key = key;
+          option.onclick = () => selectAnswer(q, option);
+          optionsContainer.appendChild(option);
+        });
+        
+        quizContainer.appendChild(questionEl);
+      });
+    }
+
+    function selectAnswer(question, selectedOption) {
+      const questionCard = selectedOption.closest('.question-card');
+      if (questionCard.classList.contains('answered')) return;
+      
+      questionCard.classList.add('answered');
+      const options = questionCard.querySelectorAll('.option');
+      
+      options.forEach(opt => {
+        opt.classList.remove('correct', 'wrong');
+        if (opt.dataset.key === question.answer) {
+          opt.classList.add('correct');
+        } else if (opt === selectedOption) {
+          opt.classList.add('wrong');
+        }
+      });
+      
+      questionCard.querySelector('.explanation').style.display = 'block';
+      answeredCount++;
+      updateProgress();
+    }
+
+    function updateProgress() {
+      progressElement.textContent = `${answeredCount}/${quizData.length} প্রশ্ন উত্তর দেওয়া হয়েছে`;
+    }
+
+    function confirmFinishExam() {
+      const dialog = document.createElement('div');
+      dialog.className = 'confirmation-dialog';
+      dialog.innerHTML = `
+        <h3>পরীক্ষা শেষ করতে চান?</h3>
+        <p>আপনি ${answeredCount}/${quizData.length} প্রশ্নের উত্তর দিয়েছেন।</p>
+        <button onclick="showResult()" style="background: ${answeredCount === quizData.length ? 'var(--success)' : 'var(--danger)'}">হ্যাঁ, শেষ করুন</button>
+        <button onclick="document.body.removeChild(this.parentNode); document.body.removeChild(document.querySelector('.overlay'))">না, ফিরে যান</button>
+      `;
+      
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay';
+      
+      document.body.appendChild(overlay);
+      document.body.appendChild(dialog);
+    }
+
+    function showResult() {
+      // Remove confirmation dialog if exists
+      const dialog = document.querySelector('.confirmation-dialog');
+      const overlay = document.querySelector('.overlay');
+      if (dialog) document.body.removeChild(dialog);
+      if (overlay) document.body.removeChild(overlay);
+      
+      clearInterval(interval);
+      
+      const totalQuestions = quizData.length;
+      const correctAnswers = document.querySelectorAll('.option.correct').length;
+      const wrongAnswers = totalQuestions - correctAnswers;
+      const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+      
+      // Set result profile image
+      resultProfileImg.src = userProfileImg.src;
+      
+      resultStudentEl.textContent = studentName;
+      scoreElement.textContent = `${correctAnswers}/${totalQuestions}`;
+      timeTakenElement.textContent = `সময় লেগেছে: ${timerText.textContent}`;
+      
+      correctAnswersEl.textContent = correctAnswers;
+      wrongAnswersEl.textContent = wrongAnswers;
+      percentageEl.textContent = `${percentage}%`;
+      
+      // Animate progress bar
+      progressFill.style.width = `${percentage}%`;
+      
+      showPage('result');
+    }
   </script>
 </body>
 </html>
