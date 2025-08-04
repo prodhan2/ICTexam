@@ -461,6 +461,17 @@
     let interval;
     let answeredCount = 0;
 
+    // Function to escape HTML tags
+    function escapeHtml(unsafe) {
+      if (!unsafe) return '';
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     function showPage(pageId) {
       Object.values(pages).forEach(page => page.classList.remove('active'));
       pages[pageId].classList.add('active');
@@ -500,18 +511,18 @@
         const response = await fetch(sheetURL);
         const data = await response.json();
         
-        // Transform the data to match our format
+        // Transform and sanitize the data
         quizData = data.map(item => ({
           id: item["No."],
-          question: item["প্রশ্ন"],
+          question: escapeHtml(item["প্রশ্ন"]),
           options: {
-            A: item["A"],
-            B: item["B"],
-            C: item["C"],
-            D: item["D"]
+            A: escapeHtml(item["A"]),
+            B: escapeHtml(item["B"]),
+            C: escapeHtml(item["C"]),
+            D: escapeHtml(item["D"])
           },
           answer: item["উত্তর"],
-          explanation: item["ব্যাখ্যা"]
+          explanation: escapeHtml(item["ব্যাখ্যা"])
         }));
         
         initializeExam();
